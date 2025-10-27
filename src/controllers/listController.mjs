@@ -1,5 +1,26 @@
 import { List, Board } from "../models/index.mjs"
 
+const getAllLists = async (req, res) => {
+  try {
+    const { boardId } = req.params
+
+    const board = await Board.findOne({
+      where: { id: boardId, userId: req.user.id },
+    })
+
+    if (!board) {
+      return res.status(404).json({ error: "Board not found" })
+    }
+
+    const lists = await List.findAll({
+      where: { boardId }
+    })
+  res.status(200).json(lists)
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" })
+  }
+}
+
 const createList = async (req, res) => {
   try {
     const { title, position } = req.body
@@ -66,4 +87,4 @@ const deleteList = async (req, res) => {
   }
 }
 
-export { createList, updateList, deleteList }
+export { getAllLists, createList, updateList, deleteList }

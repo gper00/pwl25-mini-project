@@ -1,6 +1,6 @@
 node_modules/
-screenshots/
-README.md
+# screenshots/
+# README.md
 
 .env
 .eslintignore
